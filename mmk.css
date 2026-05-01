@@ -10,12 +10,10 @@ header {
     align-items: center;
     padding: 15px 50px;
     background-color: aliceblue;
-    gap: 10px;
+    gap: 30px;
 }
 
-nav {
-    gap: 10px;
-}
+
 
 .logo {
     font-size: 30px;
@@ -38,13 +36,8 @@ nav a:hover {
 .login {
 
     color: black;
-    align-items: center;
-    justify-items: space-between;
-    align-content: center;
-    justify-content: space-between;
-    padding: 10px 30px;
-    gap: 20px;
 }
+
 
 /* Overlay */
 .overlay {
@@ -78,4 +71,36 @@ button {
 
 button:hover {
     background: #e133d0;
+}
+
+.login-form input {
+    margin-bottom: 20px;
+    padding: 6px;
+    border: 2px solid red;
+
+}
+
+.login-form {
+    text-align: center;
+
+}
+
+button {
+    padding: 10px;
+    margin: 20px;
+}
+
+.layout {
+    margin: 30px;
+    padding: 24px;
+}
+
+nav a {
+    color: black;
+    padding: 0px 16px;
+}
+
+.login-form a {
+    color: red;
+    font-size: 30px bold;
 }
