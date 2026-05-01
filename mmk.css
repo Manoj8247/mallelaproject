@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0px;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background-color: aliceblue;
+    gap: 10px;
+}
+
+nav {
+    gap: 10px;
+}
+
+.logo {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: green;
+
+}
+
+/* Hero Section */
+.hero {
+    height: 90vh;
+    background: url("WhatsApp\ Image\ 2026-04-30\ at\ 12.12.03\ AM.jpeg");
+
+    position: relative;
+}
+
+.login {
+
+    color: black;
+    align-items: center;
+    justify-items: space-between;
+    align-content: center;
+    justify-content: space-between;
+    padding: 10px 30px;
+    gap: 20px;
+}
+
+/* Overlay */
+.overlay {
+    position: absolute;
+    top: 30%;
+    left: 10%;
+    color: white;
+}
+
+.overlay p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.overlay h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+/* Button */
+button {
+    padding: 12px 25px;
+    background: #3febf4;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgb(101, 39, 20);
+}
+
+button:hover {
+    background: #e133d0;
+}
