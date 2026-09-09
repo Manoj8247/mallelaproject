@@ -3,7 +3,10 @@ from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv 
+import os
 
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -16,7 +19,7 @@ CORS(app)
 DB_CONFIG = {
     "host": "localhost",
     "user": "root",
-    "password": "Manuteja@123",
+    "password": os.getenv("DB_PASSWORD"),
     "database": "mmk_store",
     "connection_timeout": 10
 }
