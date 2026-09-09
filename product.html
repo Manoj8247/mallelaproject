@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mallela Milks - Products</title>
+
+    <link rel="stylesheet" href="product.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="product-header">
+
+        <div class="logo">
+            <img src="images/logo.png" alt="Mallela Milks" class="site-logo">
+        </div>
+
+        <a href="mmk.html" class="back-home">
+            ← Back to Home
+        </a>
+
+    </header>
+
+
+    <!-- ================= PRODUCT PAGE ================= -->
+
+    <main>
+
+        <section class="product-page">
+
+            <div class="page-heading">
+
+                <p>OUR PRODUCTS</p>
+
+                <h1>
+                    Fresh Dairy Products
+                </h1>
+
+                <span>
+                    Select your products and quantity
+                </span>
+
+            </div>
+
+
+            <!-- ================= PRODUCT LIST ================= -->
+
+            <div class="product-grid">
+
+
+                <!-- COW MILK -->
+
+                <div class="product-card">
+
+                    <img src="images/cow-millk.jpeg" alt="Fresh Cow Milk">
+
+                    <div class="product-details">
+
+                        <h2>
+                            Cow Milk
+                        </h2>
+
+                        <p>
+                            Fresh and pure cow milk
+                            delivered from our farm.
+                        </p>
+
+                        <h3>
+                            ₹60 <span>/ Litre</span>
+                        </h3>
+
+                        <div class="quantity-title">
+                            Quantity
+                        </div>
+
+                        <div class="quantity-box">
+
+                            <button onclick="changeQuantity('cowMilk', -0.5)">
+                                −
+                            </button>
+
+                            <span id="cowMilk">
+                                0.5
+                            </span>
+
+                            <button onclick="changeQuantity('cowMilk', 0.5)">
+                                +
+                            </button>
+
+                        </div>
+
+                        <p class="unit">
+                            Litre
+                        </p>
+
+                        <button class="add-cart" onclick="addToCart(
+                                'Cow Milk',
+                                60,
+                                'Litre',
+                                'cowMilk'
+                            )">
+                            Add to Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUFFALO MILK -->
+
+                <div class="product-card">
+
+                    <img src="images/buffelo-milk.jpeg" alt="Fresh Buffalo Milk">
+
+                    <div class="product-details">
+
+                        <h2>
+                            Buffalo Milk
+                        </h2>
+
+                        <p>
+                            Fresh and nutritious buffalo milk.
+                        </p>
+
+                        <h3>
+                            ₹70 <span>/ Litre</span>
+                        </h3>
+
+                        <div class="quantity-title">
+                            Quantity
+                        </div>
+
+                        <div class="quantity-box">
+
+                            <button onclick="changeQuantity('buffaloMilk', -0.5)">
+                                −
+                            </button>
+
+                            <span id="buffaloMilk">
+                                0.5
+                            </span>
+
+                            <button onclick="changeQuantity('buffaloMilk', 0.5)">
+                                +
+                            </button>
+
+                        </div>
+
+                        <p class="unit">
+                            Litre
+                        </p>
+
+                        <button class="add-cart" onclick="addToCart(
+                                'Buffalo Milk',
+                                70,
+                                'Litre',
+                                'buffaloMilk'
+                            )">
+                            Add to Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CURD -->
+
+                <div class="product-card">
+
+                    <img src="images/curd.jpeg" alt="Fresh Curd">
+
+                    <div class="product-details">
+
+                        <h2>
+                            Fresh Curd
+                        </h2>
+
+                        <p>
+                            Fresh homemade-style dairy curd.
+                        </p>
+
+                        <h3>
+                            ₹50 <span>/ 500g</span>
+                        </h3>
+
+                        <div class="quantity-title">
+                            Quantity
+                        </div>
+
+                        <div class="quantity-box">
+
+                            <button onclick="changeQuantity('curd', -0.5)">
+                                −
+                            </button>
+
+                            <span id="curd">
+                                0.5
+                            </span>
+
+                            <button onclick="changeQuantity('curd', 0.5)">
+                                +
+                            </button>
+
+                        </div>
+
+                        <p class="unit">
+                            500g units
+                        </p>
+
+                        <button class="add-cart" onclick="addToCart(
+                                'Fresh Curd',
+                                50,
+                                '500g',
+                                'curd'
+                            )">
+                            Add to Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PANEER -->
+
+                <div class="product-card">
+
+                    <img src="images/pannir.jpeg" alt="Fresh Paneer">
+
+                    <div class="product-details">
+
+                        <h2>
+                            Paneer
+                        </h2>
+
+                        <p>
+                            Fresh and soft dairy paneer.
+                        </p>
+
+                        <h3>
+                            ₹400 <span>/ Kg</span>
+                        </h3>
+
+                        <div class="quantity-title">
+                            Quantity
+                        </div>
+
+                        <div class="quantity-box">
+
+                            <button onclick="changeQuantity('paneer', -0.25)">
+                                −
+                            </button>
+
+                            <span id="paneer">
+                                0.25
+                            </span>
+
+                            <button onclick="changeQuantity('paneer', 0.25)">
+                                +
+                            </button>
+
+                        </div>
+
+                        <p class="unit">
+                            Kg
+                        </p>
+
+                        <button class="add-cart" onclick="addToCart(
+                                'Paneer',
+                                400,
+                                'Kg',
+                                'paneer'
+                            )">
+                            Add to Cart
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= CART ================= -->
+
+        <section class="cart-section">
+
+            <div class="cart-heading">
+
+                <p>YOUR ORDER</p>
+
+                <h2>
+                    Shopping Cart
+                </h2>
+
+            </div>
+
+
+            <div id="cart-items">
+
+                <p class="empty-cart">
+                    Your cart is empty.
+                </p>
+
+            </div>
+
+
+            <div class="cart-summary">
+
+                <div>
+                    Subtotal:
+                    <strong>
+                        ₹<span id="subtotal">0</span>
+                    </strong>
+                </div>
+
+                <div>
+                    Delivery:
+                    <strong>
+                        ₹<span id="delivery">0</span>
+                    </strong>
+                </div>
+
+                <div class="grand-total">
+
+                    Total:
+                    <strong>
+                        ₹<span id="grand-total">0</span>
+                    </strong>
+
+                </div>
+
+                <button class="checkout-btn" onclick="goToCheckout()">
+                    Proceed to Checkout
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================= CUSTOMER DETAILS ================= -->
+
+        <section class="checkout-section" id="checkout">
+
+            <div class="checkout-heading">
+
+                <p>DELIVERY DETAILS</p>
+
+                <h2>
+                    Customer Information
+                </h2>
+
+            </div>
+
+
+            <form id="order-form" onsubmit="placeOrder(event)">
+
+                <label for="customer-name">
+                    Full Name
+                </label>
+
+                <input type="text" id="customer-name" placeholder="Enter your full name" required>
+
+
+                <label for="customer-phone">
+                    Phone Number
+                </label>
+
+                <input type="tel" id="customer-phone" placeholder="Enter 10-digit phone number" required>
+
+
+                <label for="customer-address">
+                    Delivery Address
+                </label>
+
+                <textarea id="customer-address" placeholder="Enter your complete delivery address" required></textarea>
+
+
+                <button type="submit" class="place-order-btn">
+                    Place Order
+                </button>
+
+            </form>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Mallela Milks
+        </p>
+
+    </footer>
+
+
+    <script src="product.js"></script>
+
+</body>
+
+</html>
