@@ -2794,3 +2794,22 @@ footer a:hover {
     }
 
 }
+
+/* ================= VIEW MORE REVIEWS ================= */
+
+.view-more-reviews {
+    display: block;
+    margin: 30px auto;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 6px;
+    background-color: #28b857;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.view-more-reviews:hover {
+    background-color: #219c4b;
+}

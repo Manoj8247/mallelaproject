@@ -95,69 +95,145 @@ if (feedbackForm) {
         const email = emailInput.value.trim();
         const feedback = feedbackInput.value.trim();
 
+        // Get logged-in customer ID
+        const customerId = localStorage.getItem("customerId");
+
+
+        // Check login
+        if (!customerId) {
+
+            alert("Please login before submitting a review.");
+
+            return;
+        }
+
 
         // Check name
         if (name === "") {
+
             alert("Please enter your name.");
+
             nameInput.focus();
+
             return;
         }
 
 
         // Check email
         if (email === "") {
+
             alert("Please enter your email.");
+
             emailInput.focus();
+
             return;
         }
 
 
         // Check rating
         if (selectedRating === 0) {
+
             alert("Please select your rating.");
+
             return;
         }
 
 
         // Check feedback
         if (feedback === "") {
+
             alert("Please write your feedback.");
+
             feedbackInput.focus();
+
             return;
         }
 
 
-        // Create review
-        addReview(
-            name,
-            selectedRating,
-            feedback
-        );
+        // Review data sent to Flask
+        const reviewData = {
+
+            customer_id: Number(customerId),
+
+            rating: selectedRating,
+
+            review_text: feedback
+
+        };
 
 
-        // Save review temporarily
-        saveReview(
-            name,
-            email,
-            selectedRating,
-            feedback
-        );
+        // Send review to backend
+        fetch("http://127.0.0.1:5000/api/reviews", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(reviewData)
+
+        })
+
+            .then(function (response) {
+
+                return response.json();
+
+            })
+
+            .then(function (data) {
+
+                if (!data.success) {
+
+                    alert(
+                        data.message ||
+                        "Failed to submit review."
+                    );
+
+                    return;
+                }
 
 
-        alert("Thank you for your feedback!");
+                // Show review on webpage
+                addReview(
+                    name,
+                    selectedRating,
+                    feedback
+                );
 
 
-        // Clear form
-        feedbackForm.reset();
+                alert("Thank you for your feedback!");
 
 
-        // Reset stars
-        selectedRating = 0;
+                // Clear form
+                feedbackForm.reset();
 
-        ratingStars.forEach(function (star) {
-            star.textContent = "☆";
-            star.style.color = "#777";
-        });
+
+                // Reset stars
+                selectedRating = 0;
+
+                ratingStars.forEach(function (star) {
+
+                    star.textContent = "☆";
+
+                    star.style.color = "#777";
+
+                });
+
+            })
+
+            .catch(function (error) {
+
+                console.error(
+                    "Review error:",
+                    error
+                );
+
+                alert(
+                    "Unable to submit review. Please check whether the backend is running."
+                );
+
+            });
 
     });
 
@@ -263,31 +339,110 @@ function saveReview(name, email, rating, feedback) {
 
 
 // ======================================================
-// 6. LOAD OLD REVIEWS
+// 6. LOAD REVIEWS FROM DATABASE
 // ======================================================
+
+let allReviews = [];
+let visibleReviews = 6;
 
 function loadReviews() {
 
-    const reviews =
-        JSON.parse(
-            localStorage.getItem("mallelaReviews")
-        ) || [];
+    fetch("http://127.0.0.1:5000/api/reviews")
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+            if (!data.success) {
+                console.error("Failed to load reviews.");
+                return;
+            }
+
+            allReviews = data.reviews;
+
+            displayReviews();
+
+        })
+        .catch(function (error) {
+
+            console.error(
+                "Review loading error:",
+                error
+            );
+
+        });
+}
 
 
-    reviews.forEach(function (review) {
+// ======================================================
+// DISPLAY REVIEWS
+// ======================================================
+
+function displayReviews() {
+
+    const reviewContainer =
+        document.querySelector("#review-container");
+
+    const viewMoreButton =
+        document.querySelector("#view-more-reviews");
+
+    if (!reviewContainer) {
+        return;
+    }
+
+    reviewContainer.innerHTML = "";
+
+    const reviewsToShow =
+        allReviews.slice(0, visibleReviews);
+
+    reviewsToShow.forEach(function (review) {
 
         addReview(
-            review.name,
+            review.full_name,
             review.rating,
-            review.feedback
+            review.review_text
         );
+
+    });
+
+
+    // Show View More only when more reviews exist
+
+    if (viewMoreButton) {
+
+        if (allReviews.length > visibleReviews) {
+
+            viewMoreButton.style.display = "block";
+
+        } else {
+
+            viewMoreButton.style.display = "none";
+
+        }
+    }
+}
+
+
+// ======================================================
+// VIEW MORE REVIEWS
+// ======================================================
+
+const viewMoreButton =
+    document.querySelector("#view-more-reviews");
+
+if (viewMoreButton) {
+
+    viewMoreButton.addEventListener("click", function () {
+
+        visibleReviews += 6;
+
+        displayReviews();
 
     });
 
 }
 
 
-// Load saved reviews
 loadReviews();
 
 

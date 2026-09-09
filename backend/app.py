@@ -775,6 +775,122 @@ def contact_message():
         cursor.close()
         connection.close()
 
+    #=========================================
+    # CREATE REVIEW
+    #=========================================
+@app.route("/api/reviews", methods=["POST"])
+def create_review():
+    data = request.get_json()
+
+    customer_id = data.get("customer_id")
+    rating = data.get("rating")
+    review_text = data.get("review_text")
+
+    if not customer_id or not rating or not review_text:
+        return jsonify({
+            "success": False,
+            "message": "Customer ID, rating and review are required."
+        }), 400
+
+    if int(rating) < 1 or int(rating) > 5:
+        return jsonify({
+            "success": False,
+            "message": "Rating must be between 1 and 5."
+        }), 400
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    try:
+        cursor.execute(
+            "SELECT customer_id FROM customers WHERE customer_id = %s",
+            (customer_id,)
+        )
+
+        customer = cursor.fetchone()
+
+        if customer is None:
+            return jsonify({
+                "success": False,
+                "message": "Customer not found."
+            }), 404
+
+        cursor.execute(
+            """
+            INSERT INTO reviews
+            (customer_id, rating, review_text)
+            VALUES (%s, %s, %s)
+            """,
+            (customer_id, rating, review_text)
+        )
+
+        connection.commit()
+
+        return jsonify({
+            "success": True,
+            "message": "Review submitted successfully."
+        }), 201
+
+    except Exception as e:
+        connection.rollback()
+        print("Review error:", e)
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to submit review."
+        }), 500
+
+    finally:
+        cursor.close()
+        connection.close()
+
+        # ======================================================
+# GET ALL REVIEWS
+# ======================================================
+
+@app.route("/api/reviews", methods=["GET"])
+def get_reviews():
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+
+        cursor.execute("""
+            SELECT
+                r.review_id,
+                r.customer_id,
+                c.full_name,
+                r.rating,
+                r.review_text,
+                r.created_at
+            FROM reviews r
+            JOIN customers c
+                ON r.customer_id = c.customer_id
+            ORDER BY r.created_at DESC
+        """)
+
+        reviews = cursor.fetchall()
+
+        return jsonify({
+            "success": True,
+            "reviews": reviews
+        }), 200
+
+    except Exception as e:
+
+        print("Review loading error:", e)
+
+        return jsonify({
+            "success": False,
+            "message": "Failed to load reviews."
+        }), 500
+
+    finally:
+
+        cursor.close()
+        connection.close()
+
 # ==========================================
 # START FLASK
 # ==========================================

@@ -528,7 +528,7 @@
 
     <!-- ================= CUSTOMER REVIEWS ================= -->
 
-    <section class="reviews">
+    <section class="reviews" id="reviews">
 
         <div class="section-heading">
 
@@ -540,102 +540,64 @@
                 What Our Customers Say
             </h2>
 
-        </div>
-
-
-        <div class="review-container">
-
-
-            <div class="review-card">
-                <div class="stars">
-                    ⭐⭐⭐⭐⭐
-                </div>
-                <p>
-                    "Fresh milk and good service. I am happy
-                    with the quality."
-                </p>
-
-                <h3>
-                    Customer Name
-                </h3>
-
-                <span>
-                    Customer
-                </span>
-
-            </div>
-
-
-            <div class="review-card">
-                <div class="stars">
-                    ⭐⭐⭐⭐⭐
-                </div>
-
-                <p>
-                    "The home delivery service is very
-                    convenient."
-                </p>
-
-                <h3>
-                    Customer Name
-                </h3>
-
-                <span>
-                    Customer
-                </span>
-
-            </div>
-
-
-            <div class="review-card">
-                <div class="stars">
-                    ⭐⭐⭐⭐⭐
-                </div>
-
-                <p>
-                    "Good quality dairy products and
-                    reliable service."
-                </p>
-
-                <h3>
-                    Customer Name
-                </h3>
-
-                <span>
-                    Customer
-                </span>
-
-            </div>
+            <p>
+                See what our customers have to say about Mallela Milks.
+            </p>
 
         </div>
-        <!-- FEEDBACK FORM -->
+
+
+        <!-- REVIEWS FROM DATABASE -->
+
+        <div class="review-container" id="review-container">
+        </div>
+        <button type="button" id="view-more-reviews" class="view-more-reviews" style="display: none;">
+            View More Reviews
+        </button>
+
+        <!-- ================= SHARE FEEDBACK ================= -->
 
         <div class="feedback-form">
 
-            <h3>Share Your Feedback</h3>
+            <h3>
+                Share Your Feedback
+            </h3>
 
-            <p>We would love to hear about your experience with Mallela Milks.</p>
+            <p>
+                We would love to hear about your experience with Mallela Milks.
+            </p>
+
 
             <form>
 
                 <input type="text" placeholder="Your Name" required>
 
-                <input type="email" placeholder="Your Email" required>
-                <div>
-                    <div class="rating">
-                        <label>Your Rating</label>
 
-                        <div class="rating-stars">
-                            <span data-rating="1">☆</span>
-                            <span data-rating="2">☆</span>
-                            <span data-rating="3">☆</span>
-                            <span data-rating="4">☆</span>
-                            <span data-rating="5">☆</span>
-                        </div>
+                <input type="email" placeholder="Your Email" required>
+
+
+                <div class="rating">
+
+                    <label>
+                        Your Rating
+                    </label>
+
+
+                    <div class="rating-stars">
+
+                        <span data-rating="1">☆</span>
+                        <span data-rating="2">☆</span>
+                        <span data-rating="3">☆</span>
+                        <span data-rating="4">☆</span>
+                        <span data-rating="5">☆</span>
+
                     </div>
+
                 </div>
 
+
                 <textarea placeholder="Write your feedback..." rows="5" required></textarea>
+
 
                 <button type="submit">
                     Submit Feedback
