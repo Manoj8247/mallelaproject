@@ -1,7 +1,7 @@
 // ======================================================
 // MALLELA MILKS - JAVASCRIPT
 // ======================================================
-
+const API_BASE_URL = "http://127.0.0.1:5000";
 
 // ======================================================
 // 1. SMOOTH SCROLLING
@@ -153,8 +153,6 @@ if (feedbackForm) {
         // Review data sent to Flask
         const reviewData = {
 
-            customer_id: Number(customerId),
-
             rating: selectedRating,
 
             review_text: feedback
@@ -163,9 +161,10 @@ if (feedbackForm) {
 
 
         // Send review to backend
-        fetch("http://127.0.0.1:5000/api/reviews", {
+        fetch(`${API_BASE_URL}/api/reviews`, {
 
             method: "POST",
+            credentials: "include",
 
             headers: {
                 "Content-Type": "application/json"
@@ -195,11 +194,8 @@ if (feedbackForm) {
 
 
                 // Show review on webpage
-                addReview(
-                    name,
-                    selectedRating,
-                    feedback
-                );
+                visibleReviews = 3;
+                loadReviews();
 
 
                 alert("Thank you for your feedback!");
@@ -300,54 +296,17 @@ function addReview(name, rating, feedback) {
 }
 
 
-// ======================================================
-// 5. SAVE REVIEWS IN BROWSER
-// ======================================================
-
-function saveReview(name, email, rating, feedback) {
-
-    let reviews =
-        JSON.parse(
-            localStorage.getItem("mallelaReviews")
-        ) || [];
-
-
-    const review = {
-
-        name: name,
-
-        email: email,
-
-        rating: rating,
-
-        feedback: feedback,
-
-        date: new Date().toISOString()
-
-    };
-
-
-    reviews.push(review);
-
-
-    localStorage.setItem(
-        "mallelaReviews",
-        JSON.stringify(reviews)
-    );
-
-}
-
 
 // ======================================================
 // 6. LOAD REVIEWS FROM DATABASE
 // ======================================================
 
 let allReviews = [];
-let visibleReviews = 6;
+let visibleReviews = 3;
 
 function loadReviews() {
 
-    fetch("http://127.0.0.1:5000/api/reviews")
+    fetch(`${API_BASE_URL}/api/reviews`)
         .then(function (response) {
             return response.json();
         })
@@ -434,7 +393,7 @@ if (viewMoreButton) {
 
     viewMoreButton.addEventListener("click", function () {
 
-        visibleReviews += 6;
+        visibleReviews += 3;
 
         displayReviews();
 
@@ -550,7 +509,7 @@ if (registerForm) {
         }
 
 
-        fetch("http://127.0.0.1:5000/api/register", {
+        fetch(`${API_BASE_URL}/api/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -614,7 +573,7 @@ if (contactForm) {
             return;
         }
 
-        fetch("http://127.0.0.1:5000/api/contact", {
+        fetch(`${API_BASE_URL}/api/contact`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -1154,8 +1113,9 @@ function placeOrder(event) {
     };
 
     // Send order to Flask backend
-    fetch("http://127.0.0.1:5000/api/orders", {
+    fetch(`${API_BASE_URL}/api/orders`, {
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
@@ -1222,9 +1182,10 @@ function loginUser(event) {
     const email = document.getElementById("login-email").value.trim();
     const password = document.getElementById("login-password").value;
 
-    fetch("http://127.0.0.1:5000/api/login", {
+    fetch(`${API_BASE_URL}/api/login`, {
 
         method: "POST",
+        credentials: "include",
 
         headers: {
             "Content-Type": "application/json"
@@ -1246,11 +1207,12 @@ function loginUser(event) {
                 localStorage.setItem("customerName", data.customer.full_name);
                 localStorage.setItem("customerId", data.customer.customer_id);
                 updateLoginStatus();
+                loadMyOrders();
 
                 alert("Login successful!");
 
 
-                window.location.href = "mmk.html#products";
+                window.location.hash = "products";
 
             } else {
 
@@ -1269,99 +1231,95 @@ function loginUser(event) {
         });
 }
 
-// ================= LOGIN STATUS =================
+// =====================================================
+// LOGIN STATUS
+// =====================================================
 
 function updateLoginStatus() {
-    const loginBtn = document.getElementById("login-btn");
-    const registerBtn = document.getElementById("register-btn");
-    const userWelcome = document.getElementById("user-welcome");
-    const logoutBtn = document.getElementById("logout-btn");
 
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-    const customerName = localStorage.getItem("customerName");
+    const loginBtn =
+        document.getElementById("login-btn");
 
-    if (isLoggedIn === "true") {
+    const registerBtn =
+        document.getElementById("register-btn");
+
+    const welcome =
+        document.getElementById("user-welcome");
+
+    const logoutBtn =
+        document.getElementById("logout-btn");
+
+    const isLoggedIn =
+        localStorage.getItem("isLoggedIn");
+
+    const customerName =
+        localStorage.getItem("customerName");
+
+
+    if (isLoggedIn === "true" && customerName) {
+
         loginBtn.style.display = "none";
+
         registerBtn.style.display = "none";
 
-        userWelcome.textContent = "Welcome, " + customerName;
-        userWelcome.style.display = "inline";
+        welcome.textContent =
+            "Welcome, " + customerName;
 
-        logoutBtn.style.display = "inline";
-    } else {
-        loginBtn.style.display = "inline";
-        registerBtn.style.display = "inline";
-
-        userWelcome.style.display = "none";
-        logoutBtn.style.display = "none";
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    updateLoginStatus();
-
-    const logoutBtn = document.getElementById("logout-btn");
-
-    logoutBtn.addEventListener("click", function (event) {
-        event.preventDefault();
-
-        localStorage.removeItem("isLoggedIn");
-        localStorage.removeItem("customerName");
-
-        updateLoginStatus();
-
-        window.location.href = "mmk.html#login";
-    });
-});
-function updateLoginStatus() {
-    const customerName = localStorage.getItem("customerName");
-
-    const loginBtn = document.getElementById("login-btn");
-    const registerBtn = document.getElementById("register-btn");
-    const welcome = document.getElementById("user-welcome");
-    const logoutBtn = document.getElementById("logout-btn");
-
-    if (customerName) {
-        loginBtn.style.display = "none";
-        registerBtn.style.display = "none";
-
-        welcome.textContent = "Welcome, " + customerName;
         welcome.style.display = "inline";
 
         logoutBtn.style.display = "inline";
+
     } else {
+
         loginBtn.style.display = "inline";
+
         registerBtn.style.display = "inline";
 
         welcome.style.display = "none";
+
         logoutBtn.style.display = "none";
     }
 }
 
-document.addEventListener("DOMContentLoaded", function () {
 
-    updateLoginStatus();
+// =====================================================
+// LOGOUT
+// =====================================================
 
-    const logoutBtn = document.getElementById("logout-btn");
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    if (logoutBtn) {
+        updateLoginStatus();
 
-        logoutBtn.addEventListener("click", function (event) {
+        const logoutBtn =
+            document.getElementById("logout-btn");
 
-            event.preventDefault();
+        if (!logoutBtn) {
+            return;
+        }
 
-            localStorage.removeItem("isLoggedIn");
-            localStorage.removeItem("customerName");
+        logoutBtn.addEventListener(
+            "click",
+            function (event) {
 
-            updateLoginStatus();
+                event.preventDefault();
 
-            window.location.hash = "home";
+                localStorage.removeItem("isLoggedIn");
 
-        });
+                localStorage.removeItem("customerName");
+
+                localStorage.removeItem("customerId");
+
+                updateLoginStatus();
+
+                window.location.hash = "home";
+
+            }
+        );
 
     }
-
-});
+);
 
 // =====================================================
 // LOAD PRODUCTS FROM BACKEND
@@ -1369,7 +1327,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function loadProducts() {
 
-    fetch("http://127.0.0.1:5000/api/products")
+    fetch(`${API_BASE_URL}/api/products`)
 
         .then(function (response) {
             return response.json();
@@ -1546,7 +1504,10 @@ function loadMyOrders() {
     }
 
     fetch(
-        "http://127.0.0.1:5000/api/orders/" + customerId
+        `${API_BASE_URL}/api/orders/${customerId}`,
+        {
+            credentials: "include"
+        }
     )
 
         .then(function (response) {
@@ -1790,11 +1751,10 @@ function cancelOrder(orderId) {
     }
 
     fetch(
-        "http://127.0.0.1:5000/api/orders/" +
-        orderId +
-        "/cancel",
+        `${API_BASE_URL}/api/orders/${orderId}/cancel`,
         {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },

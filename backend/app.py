@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,session
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
@@ -9,7 +9,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+app.secret_key = os.getenv("SECRET_KEY")
+CORS(app, supports_credentials=True)
 
 
 # ==========================================
@@ -244,6 +245,8 @@ def login():
                 "message": "Invalid email or password."
             }), 401
 
+        session["customer_id"] = customer["customer_id"]
+
         return jsonify({
             "success": True,
             "message": "Login successful",
@@ -350,12 +353,31 @@ def create_order():
     delivery_address = data.get("delivery_address")
     items = data.get("items")
 
-    if not customer_id or not delivery_address or not items:
+    # Get customer ID from secure Flask session
+    session_customer_id = session.get("customer_id")
+
+    if not session_customer_id:
 
         return jsonify({
             "success": False,
-            "message": "Customer ID, delivery address and items are required."
+            "message": "Please login first."
+        }), 401
+
+    # Make sure the order belongs to the logged-in customer
+    if not customer_id or int(customer_id) != int(session_customer_id):
+
+        return jsonify({
+            "success": False,
+            "message": "Unauthorized access."
+        }), 403
+
+    if not delivery_address or not items:
+
+        return jsonify({
+            "success": False,
+            "message": "Delivery address and items are required."
         }), 400
+
 
     connection = get_db_connection()
 
@@ -541,12 +563,32 @@ def create_order():
         connection.close()
 
 
+
 # ==========================================
 # GET CUSTOMER ORDERS
 # ==========================================
 
 @app.route("/api/orders/<int:customer_id>", methods=["GET"])
 def get_customer_orders(customer_id):
+
+    # Get customer ID from secure Flask session
+    session_customer_id = session.get("customer_id")
+
+    if not session_customer_id:
+
+        return jsonify({
+            "success": False,
+            "message": "Please login first."
+        }), 401
+
+    # Make sure the requested customer matches
+    # the customer who is actually logged in
+    if int(customer_id) != int(session_customer_id):
+
+        return jsonify({
+            "success": False,
+            "message": "Unauthorized access."
+        }), 403
 
     connection = get_db_connection()
 
@@ -576,7 +618,7 @@ def get_customer_orders(customer_id):
             WHERE o.customer_id = %s
             ORDER BY o.order_id DESC
             """,
-            (customer_id,)
+            (session_customer_id,)
         )
 
         orders = cursor.fetchall()
@@ -611,23 +653,16 @@ def get_customer_orders(customer_id):
 )
 def cancel_order(order_id):
 
-    data = request.get_json()
+    # Get customer ID from secure Flask session
+    session_customer_id = session.get("customer_id")
 
-    if not data:
+    if not session_customer_id:
+      return jsonify({
+        "success": False,
+        "message": "Please login first."
+    }), 401
 
-        return jsonify({
-            "success": False,
-            "message": "Invalid request data."
-        }), 400
-
-    customer_id = data.get("customer_id")
-
-    if not customer_id:
-
-        return jsonify({
-            "success": False,
-            "message": "Customer ID is required."
-        }), 400
+    customer_id = session_customer_id
 
     connection = get_db_connection()
 
@@ -780,16 +815,31 @@ def contact_message():
     #=========================================
 @app.route("/api/reviews", methods=["POST"])
 def create_review():
+
     data = request.get_json()
 
-    customer_id = data.get("customer_id")
+    if not data:
+        return jsonify({
+            "success": False,
+            "message": "Invalid request data."
+        }), 400
+
     rating = data.get("rating")
     review_text = data.get("review_text")
 
-    if not customer_id or not rating or not review_text:
+    # Get customer ID from secure Flask session
+    session_customer_id = session.get("customer_id")
+
+    if not session_customer_id:
         return jsonify({
             "success": False,
-            "message": "Customer ID, rating and review are required."
+            "message": "Please login before submitting a review."
+        }), 401
+
+    if rating is None or not review_text:
+        return jsonify({
+            "success": False,
+            "message": "Rating and review are required."
         }), 400
 
     if int(rating) < 1 or int(rating) > 5:
@@ -799,21 +849,16 @@ def create_review():
         }), 400
 
     connection = get_db_connection()
+
+    if connection is None:
+        return jsonify({
+            "success": False,
+            "message": "Unable to connect to database."
+        }), 500
+
     cursor = connection.cursor()
 
     try:
-        cursor.execute(
-            "SELECT customer_id FROM customers WHERE customer_id = %s",
-            (customer_id,)
-        )
-
-        customer = cursor.fetchone()
-
-        if customer is None:
-            return jsonify({
-                "success": False,
-                "message": "Customer not found."
-            }), 404
 
         cursor.execute(
             """
@@ -821,7 +866,11 @@ def create_review():
             (customer_id, rating, review_text)
             VALUES (%s, %s, %s)
             """,
-            (customer_id, rating, review_text)
+            (
+                session_customer_id,
+                int(rating),
+                review_text
+            )
         )
 
         connection.commit()
@@ -832,7 +881,9 @@ def create_review():
         }), 201
 
     except Exception as e:
+
         connection.rollback()
+
         print("Review error:", e)
 
         return jsonify({
@@ -841,10 +892,11 @@ def create_review():
         }), 500
 
     finally:
+
         cursor.close()
         connection.close()
 
-        # ======================================================
+# ======================================================
 # GET ALL REVIEWS
 # ======================================================
 
