@@ -1,7 +1,7 @@
 // ======================================================
 // MALLELA MILKS - JAVASCRIPT
 // ======================================================
-const API_BASE_URL = "http://127.0.0.1:5000";
+const API_BASE_URL = "https://mallela-milks-backend.onrender.com";
 
 // ======================================================
 // 1. SMOOTH SCROLLING
