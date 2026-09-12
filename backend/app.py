@@ -9,8 +9,27 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
+
 app.secret_key = os.getenv("SECRET_KEY")
-CORS(app, supports_credentials=True)
+
+FRONTEND_URL = os.getenv(
+    "FRONTEND_URL",
+    "http://127.0.0.1:5500"
+)
+
+is_production = os.getenv("FLASK_ENV") == "production"
+
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="None" if is_production else "Lax",
+    SESSION_COOKIE_SECURE=is_production
+)
+
+CORS(
+    app,
+    origins=[FRONTEND_URL],
+    supports_credentials=True
+)
 
 
 # ==========================================
@@ -18,10 +37,11 @@ CORS(app, supports_credentials=True)
 # ==========================================
 
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "root",
+    "host": os.getenv("DB_HOST"),
+    "user": os.getenv("DB_USER"),
     "password": os.getenv("DB_PASSWORD"),
-    "database": "mmk_store",
+    "database": os.getenv("DB_NAME"),
+    "port": int(os.getenv("DB_PORT", 3306)),
     "connection_timeout": 10
 }
 
