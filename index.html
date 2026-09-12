@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mallela Milks</title>
+
+    <link rel="stylesheet" href="mmk.css">
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="logo">
+            <img src="images/site logo.jpeg" alt="Mallela Milks" class="logo-image">
+
+            <div class="logo-text">
+                Mallela <span>Milks</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#products">Products</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <div class="header-buttons">
+            <a href="#login" class="login-btn" id="login-btn">Login</a>
+            <a href="#register" class="register-btn" id="register-btn">Register</a>
+
+            <span id="user-welcome" style="display: none;"></span>
+            <a href="#" id="logout-btn" style="display: none;">Logout</a>
+        </div>
+
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-content">
+
+            <p class="hero-small-text">
+                Welcome to Mallela Milks Dairy Farm
+            </p>
+
+            <h1>
+                Fresh Milk From<br>
+                Our Farm to Your Home
+            </h1>
+
+            <p class="hero-description">
+                Fresh, pure and quality dairy products
+                delivered directly to our customers.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#products" class="primary-btn">
+                    Explore Products
+                </a>
+
+                <a href="#about" class="secondary-btn">
+                    Learn More
+                </a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT SECTION ================= -->
+
+    <section class="about" id="about">
+
+        <div class="about-image">
+
+            <img src="images/form.jpeg" alt="Mallela Milks Dairy Farm">
+
+        </div>
+
+        <div class="about-content">
+
+            <p class="section-subtitle">
+                About Us
+            </p>
+
+            <h2>
+                Fresh Milk From Our Dairy Farm
+            </h2>
+
+            <p>
+                Mallela Milks is a dairy farm focused on providing
+                fresh and quality milk and dairy products to our
+                customers.
+            </p>
+
+            <p>
+                Our goal is to provide fresh dairy products with
+                reliable service and convenient delivery.
+            </p>
+
+            <a href="#" class="primary-btn">
+                Know More
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PRODUCTS SECTION ================= -->
+
+    <section class="products" id="products">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                Our Products
+            </p>
+
+            <h2>
+                Fresh Dairy Products
+            </h2>
+
+            <p>
+                Quality products from our farm for your family.
+            </p>
+
+        </div>
+
+
+        <div id="product-container" class="product-container">
+        </div>
+
+    </section>
+
+    <!-- ================= SHOPPING CART ================= -->
+
+    <section class="shopping-section" id="shopping">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                Your Order
+            </p>
+
+            <h2>
+                Shopping Cart
+            </h2>
+
+            <p>
+                Review your selected dairy products.
+            </p>
+
+        </div>
+
+
+        <div id="cart-items">
+
+            <p class="empty-cart">
+                Your cart is empty.
+            </p>
+
+        </div>
+
+
+        <div class="cart-summary">
+
+            <p>
+                Subtotal:
+                ₹<span id="subtotal">0</span>
+            </p>
+
+            <p>
+                Delivery:
+                ₹<span id="delivery">0</span>
+            </p>
+
+            <h3>
+                Total:
+                ₹<span id="grand-total">0</span>
+            </h3>
+
+            <button class="checkout-btn" onclick="goToCheckout()">
+                Proceed to Checkout
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ==============================
+     MY ORDERS
+     ============================== -->
+
+    <section class="my-orders-section" id="my-orders">
+
+        <div class="section-heading">
+            <p class="section-subtitle">Order History</p>
+            <h2>My Orders</h2>
+            <p>View your previous orders.</p>
+        </div>
+
+        <div id="my-orders-container">
+
+            <p>Loading your orders...</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CHECKOUT ================= -->
+
+    <section class="checkout-section" id="checkout">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                Delivery Details
+            </p>
+
+            <h2>
+                Customer Information
+            </h2>
+
+            <p>
+                Enter your details to place your order.
+            </p>
+
+        </div>
+
+
+        <form id="order-form" onsubmit="placeOrder(event)">
+
+            <label for="customer-name">
+                Full Name
+            </label>
+
+            <input type="text" id="customer-name" placeholder="Enter your full name" required>
+
+
+            <label for="customer-phone">
+                Phone Number
+            </label>
+
+            <input type="tel" id="customer-phone" placeholder="Enter 10-digit phone number" required>
+
+
+            <label for="customer-address">
+                Delivery Address
+            </label>
+
+            <textarea id="customer-address" placeholder="Enter your complete delivery address" required></textarea>
+
+
+            <button type="submit" class="place-order-btn">
+                Place Order
+            </button>
+
+        </form>
+
+    </section>
+
+    <!-- ================= ORDER SUCCESS ================= -->
+
+    <section class="order-success" id="order-success" style="display: none;">
+
+        <div class="success-box">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h2>
+                Order Placed Successfully!
+            </h2>
+
+            <p>
+                Thank you for ordering from Mallela Milks.
+            </p>
+
+            <p>
+                Your Order ID:
+                <strong id="order-id"></strong>
+            </p>
+
+            <p>
+                We will contact you shortly regarding your delivery.
+            </p>
+
+            <button type="button" class="continue-shopping-btn" onclick="startNewOrder()">
+
+                Continue Shopping
+
+            </button>
+
+        </div>
+
+    </section>
+    <!-- ================= PRODUCT POPUP ================= -->
+
+    <div id="product-popup" class="product-popup">
+
+        <div class="product-popup-content">
+
+            <button class="close-popup" onclick="closeProduct()">
+                ×
+            </button>
+
+            <img id="popup-product-image" class="popup-product-image" src="" alt="Product">
+
+
+            <h2 id="popup-product-name">
+                Cow Milk
+            </h2>
+
+
+            <p id="popup-product-price">
+                ₹60
+            </p>
+
+
+            <div class="quantity-section">
+
+                <p>
+                    Quantity
+                </p>
+
+
+                <button onclick="decreaseQuantity()">
+                    −
+                </button>
+
+
+                <span id="quantity">
+                    0.5
+                </span>
+
+
+                <button onclick="increaseQuantity()">
+                    +
+                </button>
+
+            </div>
+
+
+            <p>
+                Total:
+                ₹<span id="total-price">30</span>
+            </p>
+
+
+            <button class="add-cart-btn" onclick="addCurrentProductToCart()">
+                Add to Cart
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ================= SERVICES SECTION ================= -->
+
+    <section class="services" id="services">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                Our Services
+            </p>
+
+            <h2>
+                What We Provide
+            </h2>
+
+        </div>
+
+
+        <div class="service-container">
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    <img src="images/milk-service.jpeg" alt="Fresh Milk service">
+                </div>
+
+                <h3>
+                    Fresh Milk
+                </h3>
+
+                <p>
+                    Fresh dairy milk supplied directly
+                    from our farm.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+
+                    <img src="images/deliviry.jpeg" alt="Home Delivery service">
+                </div>
+
+                <h3>
+                    Home Delivery
+                </h3>
+
+                <p>
+                    Convenient milk delivery directly
+                    to your doorstep.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    <img src="images/subscribe.jpeg" alt="Milk Subscription service">
+                </div>
+
+                <h3>
+                    Milk Subscription
+                </h3>
+
+                <p>
+                    Subscribe to daily or regular milk
+                    delivery according to your requirement.
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    <img src="images/products.jpeg" alt="Dairy Products service">
+                </div>
+
+                <h3>
+                    Dairy Products
+                </h3>
+
+                <p>
+                    Fresh dairy products for your
+                    everyday needs.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= WHY CHOOSE US ================= -->
+
+    <section class="why-us">
+
+        <div class="why-us-content">
+
+            <p class="section-subtitle">
+                Why Choose Us
+            </p>
+
+            <h2>
+                Quality You Can Trust
+            </h2>
+
+            <p>
+                We focus on freshness, quality and reliable
+                service for every customer.
+            </p>
+
+
+            <div class="features">
+
+                <div class="feature">
+                    <h3>Fresh Products</h3>
+                    <p>
+                        Fresh dairy products supplied regularly.
+                    </p>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Quality</h3>
+                    <p>
+                        We focus on maintaining product quality.
+                    </p>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Reliable Delivery</h3>
+                    <p>
+                        Convenient and reliable customer delivery.
+                    </p>
+                </div>
+
+
+                <div class="feature">
+                    <h3>Customer Service</h3>
+                    <p>
+                        We value our customers and their requirements.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CUSTOMER REVIEWS ================= -->
+
+    <section class="reviews" id="reviews">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                Customer Reviews
+            </p>
+
+            <h2>
+                What Our Customers Say
+            </h2>
+
+            <p>
+                See what our customers have to say about Mallela Milks.
+            </p>
+
+        </div>
+
+
+        <!-- REVIEWS FROM DATABASE -->
+
+        <div class="review-container" id="review-container">
+        </div>
+        <button type="button" id="view-more-reviews" class="view-more-reviews" style="display: none;">
+            View More Reviews
+        </button>
+
+        <!-- ================= SHARE FEEDBACK ================= -->
+
+        <div class="feedback-form">
+
+            <h3>
+                Share Your Feedback
+            </h3>
+
+            <p>
+                We would love to hear about your experience with Mallela Milks.
+            </p>
+
+
+            <form>
+
+                <input type="text" placeholder="Your Name" required>
+
+
+                <input type="email" placeholder="Your Email" required>
+
+
+                <div class="rating">
+
+                    <label>
+                        Your Rating
+                    </label>
+
+
+                    <div class="rating-stars">
+
+                        <span data-rating="1">☆</span>
+                        <span data-rating="2">☆</span>
+                        <span data-rating="3">☆</span>
+                        <span data-rating="4">☆</span>
+                        <span data-rating="5">☆</span>
+
+                    </div>
+
+                </div>
+
+
+                <textarea placeholder="Write your feedback..." rows="5" required></textarea>
+
+
+                <button type="submit">
+                    Submit Feedback
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= LOGIN SECTION ================= -->
+
+    <section class="login-section" id="login">
+
+        <div class="login-container">
+
+            <div class="login-content">
+
+                <p class="section-subtitle">
+                    Customer Account
+                </p>
+
+                <h2>
+                    Login to Mallela Milks
+                </h2>
+
+                <p>
+                    Login to manage your orders,
+                    subscriptions and payments.
+                </p>
+
+            </div>
+
+
+            <div class="login-form">
+
+                <form id="login-form" onsubmit="loginUser(event)">
+
+                    <label for="login-email">
+                        Email
+                    </label>
+
+                    <input type="email" id="login-email" name="email" placeholder="Enter your email" required>
+
+                    <label for="login-password">
+                        Password
+                    </label>
+
+                    <input type="password" id="login-password" name="password" placeholder="Enter your password"
+                        required>
+
+                    <button type="submit">
+                        Login
+                    </button>
+
+                    <a href="#register">
+                        New Registration
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= REGISTER SECTION ================= -->
+
+    <section class="register-section" id="register">
+
+        <div class="register-container">
+
+            <p class="section-subtitle">
+                Join Mallela Milks
+            </p>
+
+            <h2>
+                Create Your Account
+            </h2>
+
+            <form class="register-form">
+
+                <label for="full-name">
+                    Full Name
+                </label>
+
+                <input type="text" id="full-name" name="full-name" placeholder="Enter your full name">
+
+
+                <label for="phone">
+                    Phone Number
+                </label>
+
+                <input type="tel" id="phone" name="phone" placeholder="Enter phone number">
+
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input type="email" id="email" name="email" placeholder="Enter email">
+
+
+                <label for="address">
+                    Address
+                </label>
+
+                <textarea id="address" name="address" placeholder="Enter delivery address"></textarea>
+
+
+                <label for="register-password">
+                    Password
+                </label>
+
+                <input type="password" id="register-password" name="password" placeholder="Create password">
+
+
+                <button type="submit">
+                    Create Account
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CONTACT SECTION ================= -->
+
+    <section class="contact" id="contact">
+
+        <div class="section-heading">
+
+            <p class="section-subtitle">
+                Contact Us
+            </p>
+
+            <h2>
+                Get In Touch
+            </h2>
+
+            <p>
+                Contact Mallela Milks for orders,
+                subscriptions and enquiries.
+            </p>
+
+        </div>
+
+
+        <div class="contact-container">
+
+
+            <div class="contact-info">
+
+                <h3>
+                    Contact Information
+                </h3>
+
+                <p>
+                    Phone: +91 XXXXX XXXXX
+                </p>
+
+                <p>
+                    Email: info@mallelamilks.com
+                </p>
+
+                <p>
+                    Address: Your Dairy Farm Address
+                </p>
+
+            </div>
+
+
+            <div class="contact-form">
+
+                <form>
+
+                    <label for="contact-name">
+                        Name
+                    </label>
+
+                    <input type="text" id="contact-name" placeholder="Enter your name">
+
+
+                    <label for="contact-email">
+                        Email
+                    </label>
+
+                    <input type="email" id="contact-email" placeholder="Enter your email">
+
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea id="message" placeholder="Enter your message"></textarea>
+
+
+                    <button type="submit">
+                        Send Message
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+
+            <div class="footer-about">
+
+                <h2>
+                    Mallela Milks
+                </h2>
+
+                <p>
+                    Fresh milk and quality dairy products
+                    from our farm to your home.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    Quick Links
+                </h3>
+
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#products">Products</a>
+                <a href="#services">Services</a>
+                <a href="#contact">Contact</a>
+
+            </div>
+
+
+            <div class="footer-contact">
+
+                <h3>
+                    Contact
+                </h3>
+
+                <p>
+                    Phone: +91 XXXXX XXXXX
+                </p>
+
+                <p>
+                    Email: info@mallelamilks.com
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Mallela Milks. All Rights Reserved.
+            </p>
+
+        </div>
+
+    </footer>
+    <script src="mmk.js"></script>
+</body>
+
+</html>
