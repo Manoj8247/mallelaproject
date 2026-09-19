@@ -7,7 +7,7 @@ The application allows customers to browse dairy products, register/login, add p
 ## 🌐 Live Demo
 
 **Live Website:**  
-https://manoj8247.github.io/mallelaproject/
+https://manoj8247.github.io/mallela-milks-project/
 
 > Note: The project uses free-tier cloud services. The backend and database may take some time to wake up after a period of inactivity.
 
